@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko-KR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: data: https://persistent.oaistatic.com/plugins/visualize/charts/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; style-src 'unsafe-inline' blob: data: https://persistent.oaistatic.com/plugins/visualize/charts/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; img-src blob: data: https://persistent.oaistatic.com/plugins/visualize/charts/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; font-src blob: data: https://persistent.oaistatic.com/plugins/visualize/charts/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; media-src blob: data: https://persistent.oaistatic.com/plugins/visualize/charts/ https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://esm.sh https://fonts.bunny.net https://fonts.googleapis.com https://fonts.gstatic.com https://unpkg.com; worker-src blob:; connect-src blob: data:; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>정렬 알고리즘 퀴즈 &amp; 시뮬레이터</title>
+<style>:root{color-scheme:light dark}body{margin:0;padding:20px;background:light-dark(#f6f7fb,#161821)}#sorting-lab{max-width:1120px;margin:0 auto}@media(max-width:760px){body{padding:8px}}</style>
+</head>
+<body>
+<div id="sorting-lab"><p style="padding:24px">정렬 실험실을 불러오는 중…</p></div>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.1.14/dist/index.global.js"></script>
+<style>
+#sorting-lab{--lab-bg:light-dark(#f6f7fb,#161821);--lab-card:light-dark(#fff,#20232e);--lab-text:light-dark(#24273b,#eeeefa);--lab-muted:light-dark(#666b81,#afb4c9);--lab-line:light-dark(#e7e9f1,#363b4d);--lab-soft:light-dark(#eeedff,#343052);--lab-purple:light-dark(#6553cf,#b2a1ff);--lab-active:light-dark(#d9d3ff,#514473);--lab-green:light-dark(#167c62,#79ddbb);--lab-green-soft:light-dark(#e5f6ee,#203e35);--lab-red:light-dark(#b33e56,#ffa0ae);--lab-red-soft:light-dark(#fff0f2,#492b37);color:var(--lab-text);background:var(--lab-bg);font-family:Inter,"Noto Sans KR",system-ui,sans-serif;border-radius:24px;padding:30px;line-height:1.6;font-size:14px}
+#sorting-lab *{box-sizing:border-box}#sorting-lab button,#sorting-lab select{cursor:pointer;font:inherit}#sorting-lab button:disabled{cursor:default;opacity:.4}#sorting-lab button:focus-visible,#sorting-lab select:focus-visible{outline:3px solid var(--lab-purple);outline-offset:3px}#sorting-lab .panel{background:var(--lab-card);border:1px solid var(--lab-line);border-radius:20px;padding:24px}#sorting-lab .muted{color:var(--lab-muted)}#sorting-lab .primary{background:var(--lab-purple);color:var(--lab-card)}#sorting-lab .soft{background:var(--lab-soft);color:var(--lab-purple)}#sorting-lab .control{border:1px solid var(--lab-line);border-radius:10px;padding:9px 12px;background:var(--lab-card)}#sorting-lab .control:hover:not(:disabled){background:var(--lab-soft)}#sorting-lab .bar{transition:height .28s ease,background .2s;min-width:0;border-radius:9px 9px 3px 3px;background:var(--lab-line);display:flex;justify-content:center;align-items:flex-start;padding-top:10px;font-weight:650;color:var(--lab-text)}#sorting-lab .bar.compare{background:var(--lab-active)}#sorting-lab .bar.minimum{background:var(--lab-purple);color:var(--lab-card)}#sorting-lab .bar.sorted{background:var(--lab-green-soft);color:var(--lab-green)}#sorting-lab .answer{border:1px solid var(--lab-line);background:var(--lab-card);border-radius:12px;padding:12px;text-align:left;display:flex;align-items:center;gap:10px;width:100%;transition:background .15s}#sorting-lab .answer:hover:not(:disabled){background:var(--lab-soft)}#sorting-lab .answer:disabled{opacity:1}#sorting-lab .answer.correct{background:var(--lab-green-soft);border-color:var(--lab-green)}#sorting-lab .answer.wrong{background:var(--lab-red-soft);border-color:var(--lab-red)}#sorting-lab .feedback{border-radius:12px;padding:14px;background:var(--lab-soft)}#sorting-lab .legend-dot{width:9px;height:9px;border-radius:3px;display:inline-block}#sorting-lab .question-dot{width:30px;height:30px;border-radius:50%;background:var(--lab-bg);border:0;color:var(--lab-muted)}#sorting-lab .question-dot.current{box-shadow:0 0 0 2px var(--lab-purple);color:var(--lab-purple)}#sorting-lab .question-dot.done{background:var(--lab-green-soft);color:var(--lab-green)}#sorting-lab .question-dot.missed{background:var(--lab-red-soft);color:var(--lab-red)}#sorting-lab select{color:var(--lab-text)}#sorting-lab .lesson{border-top:1px solid var(--lab-line);margin-top:22px;padding-top:18px}#sorting-lab .mono{font-variant-numeric:tabular-nums}
+#sorting-lab .lab-grid{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr)}
+@media(max-width:760px){#sorting-lab{padding:16px;border-radius:16px}#sorting-lab .lab-grid{grid-template-columns:1fr}#sorting-lab .panel{padding:18px}#sorting-lab h1{font-size:25px}#sorting-lab .bar{padding-top:6px}}
+@media(prefers-reduced-motion:reduce){#sorting-lab .bar{transition:none}}
+</style>
+<script type="importmap">{"imports":{"react":"https://esm.sh/react@18.3.1"}}</script>
+<script type="module">
+import React,{useState,useMemo,useEffect} from 'https://esm.sh/react@18.3.1';
+import {createRoot} from 'https://esm.sh/react-dom@18.3.1/client?external=react';
+import {ArrowDownWideNarrow,FlaskConical,BookOpen,Play,Pause,SkipForward,ChevronLeft,ChevronRight,RotateCcw,Shuffle,Check,CheckCircle2,XCircle,Lightbulb,ArrowRight,Trophy} from 'https://esm.sh/lucide-react@0.468.0?external=react';
+const h=React.createElement;
+const initial=[6,3,8,2,5,1];
+const questions=[
+ {tag:'버블 정렬 · 원리',q:'버블 정렬은 어떤 두 원소를 비교할까요?',options:['배열의 첫 번째와 마지막 원소','서로 이웃한 두 원소','가장 작은 원소와 가장 큰 원소','임의로 선택한 두 원소'],correct:1,explain:'버블 정렬은 이웃한 두 원소를 비교하고, 왼쪽 값이 더 크면 자리를 바꿉니다. 이 과정을 반복하면 큰 값이 오른쪽으로 이동합니다.'},
+ {tag:'버블 정렬 · 한 회차',q:'[5, 2, 4, 1]을 왼쪽부터 버블 정렬로 한 회차 처리한 결과는?',options:['[1, 2, 4, 5]','[2, 5, 1, 4]','[2, 4, 1, 5]','[5, 4, 2, 1]'],correct:2,explain:'5와 2 → [2,5,4,1], 5와 4 → [2,4,5,1], 5와 1 → [2,4,1,5]. 가장 큰 값 5의 위치가 확정됩니다.'},
+ {tag:'선택 정렬 · 원리',q:'오름차순 선택 정렬은 매 회차 어떤 원소를 찾을까요?',options:['아직 정렬하지 않은 구간의 최솟값','배열 전체의 중간값','바로 오른쪽에 있는 값','이미 정렬한 구간의 최댓값'],correct:0,explain:'선택 정렬은 미정렬 구간 전체를 살펴 최솟값을 찾고, 그 구간의 맨 앞 원소와 교환합니다. 왼쪽부터 위치가 확정됩니다.'},
+ {tag:'선택 정렬 · 적용',q:'[7, 4, 2, 6]에서 선택 정렬의 첫 회차에 교환하는 값은?',options:['7과 4','4와 2','2와 6','7과 2'],correct:3,explain:'전체 구간의 최솟값은 2입니다. 맨 앞의 7과 2를 교환하므로 첫 회차 결과는 [2,4,7,6]입니다.'},
+ {tag:'두 알고리즘 · 비교',q:'이 수업의 오름차순 정렬에서, 한 회차가 끝날 때 확정되는 위치는?',options:['버블: 맨 왼쪽 / 선택: 맨 오른쪽','버블: 맨 오른쪽 / 선택: 맨 왼쪽','둘 다 배열의 가운데','둘 다 임의의 위치'],correct:1,explain:'왼쪽부터 비교하는 버블 정렬은 큰 값을 오른쪽으로 보냅니다. 선택 정렬은 최솟값을 왼쪽에 둡니다. 회차가 지날수록 확정 구간이 넓어집니다.'}
+];
+function makeSteps(input,algorithm){
+ const a=[...input],steps=[];let comparisons=0,swaps=0;
+ const add=(message,pair=[],sorted=[],min=-1,pass=0)=>steps.push({a:[...a],message,pair:[...pair],sorted:[...sorted],min,pass,comparisons,swaps});
+ add('시작 준비! 다음 단계를 눌러 비교할 두 원소를 확인하세요.');
+ if(algorithm==='bubble'){
+  for(let end=a.length-1;end>0;end--){
+   const fixed=Array.from({length:a.length-1-end},(_,k)=>end+1+k);
+   for(let j=0;j<end;j++){
+    comparisons++;add(`${a[j]}과 ${a[j+1]} 비교: ${a[j]>a[j+1]?'왼쪽 값이 더 크므로 교환합니다.':'순서가 올바르므로 그대로 둡니다.'}`,[j,j+1],fixed,-1,a.length-end);
+    if(a[j]>a[j+1]){[a[j],a[j+1]]=[a[j+1],a[j]];swaps++;add('두 원소를 교환했습니다. 큰 값이 오른쪽으로 이동했어요.',[j,j+1],fixed,-1,a.length-end);}
+   }
+   add(`${a.length-end}회차 완료: ${a[end]}의 위치가 확정되었습니다.`,[],[end,...fixed],-1,a.length-end);
+  }
+ }else{
+  for(let i=0;i<a.length-1;i++){
+   let min=i;const fixed=Array.from({length:i},(_,k)=>k);
+   add(`${i+1}회차: 미정렬 구간의 첫 값 ${a[i]}을 최솟값 후보로 지정합니다.`,[],fixed,min,i+1);
+   for(let j=i+1;j<a.length;j++){
+    comparisons++;add(`후보 ${a[min]}과 ${a[j]}을 비교합니다.`,[min,j],fixed,min,i+1);
+    if(a[j]<a[min]){min=j;add(`더 작은 값 ${a[min]}을 새 최솟값 후보로 선택합니다.`,[],fixed,min,i+1);}
+   }
+   if(min!==i){const x=a[i],y=a[min];[a[i],a[min]]=[a[min],a[i]];swaps++;add(`맨 앞의 ${x}과 최솟값 ${y}을 교환합니다.`,[i,min],fixed,-1,i+1);}
+   add(`${i+1}회차 완료: ${a[i]}의 위치가 확정되었습니다.`,[],[...fixed,i],-1,i+1);
+  }
+ }
+ add('정렬 완료! 모든 원소가 작은 값부터 큰 값 순서로 놓였습니다.',[],a.map((_,i)=>i),-1,a.length-1);return steps;
+}
+const icon=(I,size=18)=>h(I,{size,'aria-hidden':true,strokeWidth:1.8});
+function App(){
+ const saved=window.openai?.widgetState?.privateContent||{};
+ const [algorithm,setAlgorithm]=useState(saved.algorithm==='selection'?'selection':'bubble');
+ const [values,setValues]=useState(Array.isArray(saved.values)&&saved.values.length===6&&saved.values.every(n=>Number.isInteger(n)&&n>=1&&n<=9)?saved.values:initial);
+ const [index,setIndex]=useState(0),[playing,setPlaying]=useState(false),[speed,setSpeed]=useState(850);
+ const [qIndex,setQIndex]=useState(0),[answers,setAnswers]=useState({});
+ const steps=useMemo(()=>makeSteps(values,algorithm),[values,algorithm]);
+ const current=steps[Math.min(index,steps.length-1)],done=index===steps.length-1;
+ const q=questions[qIndex],selected=answers[qIndex],answered=selected!==undefined;
+ const completed=Object.keys(answers).length,score=questions.filter((v,i)=>answers[i]===v.correct).length;
+ useEffect(()=>{if(!playing)return;if(done){setPlaying(false);return;}const timer=setTimeout(()=>setIndex(i=>Math.min(i+1,steps.length-1)),speed);return()=>clearTimeout(timer);},[playing,index,speed,steps,done]);
+ const persist=(a,v)=>{window.openai?.setWidgetState({modelContent:{algorithm:a==='bubble'?'버블 정렬':'선택 정렬',array:v},privateContent:{algorithm:a,values:v}})?.catch(()=>{});};
+ useEffect(()=>{const restore=e=>{const s=e.detail?.globals?.widgetState?.privateContent;if(!s)return;if(s.algorithm==='bubble'||s.algorithm==='selection')setAlgorithm(s.algorithm);if(Array.isArray(s.values)&&s.values.length===6&&s.values.every(n=>Number.isInteger(n)&&n>=1&&n<=9))setValues(s.values);setPlaying(false);setIndex(0);};window.addEventListener('openai:set_globals',restore);return()=>window.removeEventListener('openai:set_globals',restore);},[]);
+ const restart=()=>{setPlaying(false);setIndex(0);};
+ const changeAlgorithm=a=>{setAlgorithm(a);restart();persist(a,values);};
+ const shuffle=()=>{let v=[...initial];for(let i=v.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[v[i],v[j]]=[v[j],v[i]];}setValues(v);restart();persist(algorithm,v);};
+ const button=(label,I,onClick,disabled=false,extra='')=>h('button',{type:'button',onClick,disabled,className:`control inline-flex items-center justify-center gap-2 ${extra}`},I&&icon(I),label);
+ return h('div',null,
+  h('header',{className:'mb-7'},h('div',{className:'flex items-center gap-2 mb-3 muted text-xs tracking-widest font-semibold'},icon(ArrowDownWideNarrow,16),'COMPUTER SCIENCE LAB'),h('h1',{className:'text-3xl font-bold tracking-tight mb-2'},'순서를 발견하는 정렬 실험실'),h('p',{className:'muted'},'눈으로 따라가고, 퀴즈로 확인하는 버블 정렬 & 선택 정렬')),
+  h('div',{className:'lab-grid grid gap-5'},
+   h('section',{className:'panel', 'aria-label':'정렬 시뮬레이터'},
+    h('div',{className:'flex justify-between items-start gap-2 mb-5'},h('div',null,h('div',{className:'flex items-center gap-2 mb-1'},icon(FlaskConical),h('h2',{className:'text-lg font-semibold'},'정렬 시뮬레이터')),h('p',{className:'muted text-xs'},'한 단계씩, 값의 움직임을 관찰하세요.')),h('span',{className:'soft rounded-full px-3 py-1 text-xs whitespace-nowrap'},'오름차순')),
+    h('div',{className:'flex gap-2 mb-5',role:'group','aria-label':'정렬 알고리즘'},...['bubble','selection'].map(a=>h('button',{key:a,type:'button',onClick:()=>changeAlgorithm(a),'aria-pressed':algorithm===a,className:`flex-1 rounded-xl py-2.5 font-medium ${algorithm===a?'soft':'muted'}`,style:{border:algorithm===a?'1px solid var(--lab-purple)':'1px solid var(--lab-line)'}},a==='bubble'?'버블 정렬':'선택 정렬'))),
+    h('div',{className:'flex items-center justify-between text-xs muted mb-3 mono'},h('span',null,done?'정렬 완료':current.pass?`${current.pass}회차 진행 중`:'준비'),h('span',null,`단계 ${index} / ${steps.length-1}`)),
+    h('div',{role:'img','aria-label':`현재 배열 ${current.a.join(', ')}. ${current.message}`,className:'grid grid-cols-6 gap-2 items-end pt-3',style:{height:210}},...current.a.map((v,i)=>h('div',{key:i,className:'h-full flex flex-col justify-end min-w-0'},h('div',{className:`bar ${current.sorted.includes(i)?'sorted':i===current.min?'minimum':current.pair.includes(i)?'compare':''}`,style:{height:`${v/8*160+25}px`}},v),h('span',{className:'text-center text-xs muted pt-2 mono'},`[${i}]`)))),
+    h('div',{className:'flex flex-wrap gap-x-4 gap-y-1 text-xs muted mt-5 mb-4'},...[[algorithm==='bubble'?'비교 중':'비교 중','var(--lab-active)'],...(algorithm==='selection'?[['최솟값 후보','var(--lab-purple)']]:[]),['위치 확정','var(--lab-green-soft)']].map(([label,color])=>h('span',{key:label,className:'inline-flex items-center gap-1.5'},h('span',{className:'legend-dot',style:{background:color}}),label))),
+    h('div',{className:'feedback flex gap-2 items-start',style:{minHeight:80},'aria-live':'polite','aria-atomic':'true'},icon(Lightbulb),h('p',{className:'text-sm'},current.message)),
+    h('div',{className:'flex justify-between items-center flex-wrap gap-2 mt-4 mb-4 text-xs muted mono'},h('span',null,`비교 ${current.comparisons}회 · 교환 ${current.swaps}회`),h('label',{className:'flex items-center gap-2'},'재생 속도',h('select',{value:speed,onChange:e=>setSpeed(Number(e.target.value)),className:'rounded-lg p-1',style:{background:'var(--lab-bg)',border:'1px solid var(--lab-line)'}},h('option',{value:1400},'느리게'),h('option',{value:850},'보통'),h('option',{value:400},'빠르게')))),
+    h('div',{className:'flex flex-wrap gap-2'},button('이전',ChevronLeft,()=>{setPlaying(false);setIndex(i=>Math.max(0,i-1));},index===0),h('button',{type:'button',className:'primary rounded-xl px-4 py-2 inline-flex items-center gap-2',onClick:()=>{if(done)setIndex(0);setPlaying(p=>!p);}},icon(playing?Pause:Play),playing?'일시 정지':done?'다시 재생':'자동 재생'),button('다음',SkipForward,()=>{setPlaying(false);setIndex(i=>Math.min(steps.length-1,i+1));},done)),
+    h('div',{className:'flex flex-wrap gap-2 mt-2'},button('처음으로',RotateCcw,restart),button('배열 섞기',Shuffle,shuffle)),
+    h('div',{className:'lesson'},h('p',{className:'font-semibold text-sm mb-1'},algorithm==='bubble'?'이웃끼리 비교하며, 큰 값은 오른쪽으로':'최솟값을 찾아, 앞자리부터 차례대로'),h('p',{className:'muted text-xs'},algorithm==='bubble'?'왼쪽부터 인접한 두 값을 비교하고 필요하면 교환합니다. 매 회차마다 오른쪽 끝의 위치가 하나씩 확정됩니다.':'미정렬 구간 전체에서 가장 작은 값을 찾고 그 구간의 맨 앞 값과 교환합니다. 왼쪽부터 위치가 확정됩니다.'))
+   ),
+   h('section',{className:'panel flex flex-col','aria-label':'정렬 알고리즘 퀴즈'},
+    h('div',{className:'flex justify-between items-start gap-2 mb-5'},h('div',null,h('div',{className:'flex items-center gap-2 mb-1'},icon(BookOpen),h('h2',{className:'text-lg font-semibold'},'개념 확인 퀴즈')),h('p',{className:'muted text-xs'},'답을 고르면 바로 해설을 확인할 수 있어요.')),h('span',{className:'soft rounded-full px-3 py-1 text-xs whitespace-nowrap mono'},`${completed} / 5 완료`)),
+    h('div',{className:'flex gap-2 mb-6','aria-label':'문제 이동'},...questions.map((_,i)=>h('button',{key:i,type:'button',className:`question-dot mono ${i===qIndex?'current':''} ${answers[i]===undefined?'':answers[i]===questions[i].correct?'done':'missed'}`,onClick:()=>setQIndex(i),'aria-label':`${i+1}번 문제${answers[i]!==undefined?', 답변 완료':''}`,'aria-current':qIndex===i?'step':undefined},i+1))),
+    h('div',{className:'text-xs font-medium mb-2',style:{color:'var(--lab-purple)'}},q.tag),h('h3',{className:'text-lg font-semibold mb-5',style:{minHeight:60}},q.q),
+    h('div',{className:'flex flex-col gap-2.5'},...q.options.map((option,i)=>h('button',{key:i,type:'button',className:`answer ${answered&&i===q.correct?'correct':answered&&i===selected?'wrong':''}`,disabled:answered,onClick:()=>setAnswers(old=>({...old,[qIndex]:i}))},h('span',{className:'inline-flex shrink-0 items-center justify-center rounded-lg w-7 h-7 text-xs mono',style:{background:'var(--lab-bg)'}},answered&&i===q.correct?icon(Check,16):answered&&i===selected?icon(XCircle,16):String.fromCharCode(65+i)),h('span',{className:'text-sm'},option)))),
+    h('div',{'aria-live':'polite','aria-atomic':'true',className:'mt-4'},answered?h('div',{className:'feedback',style:{background:selected===q.correct?'var(--lab-green-soft)':'var(--lab-red-soft)'}},h('div',{className:'flex items-center gap-2 font-semibold mb-1',style:{color:selected===q.correct?'var(--lab-green)':'var(--lab-red)'}},icon(selected===q.correct?CheckCircle2:XCircle),selected===q.correct?'정답이에요!':'다시 짚어볼까요?'),h('p',{className:'text-sm'},q.explain)):h('p',{className:'muted text-xs flex items-center gap-2'},icon(Lightbulb,16),'가장 알맞은 답을 하나 골라 보세요.')),
+    h('div',{className:'flex justify-between gap-2 mt-5'},button('이전 문제',ChevronLeft,()=>setQIndex(i=>i-1),qIndex===0),button('다음 문제',ArrowRight,()=>setQIndex(i=>i+1),qIndex===4)),
+    completed===5?h('div',{className:'lesson','aria-live':'polite'},h('div',{className:'flex items-center gap-2 font-semibold mb-2'},icon(Trophy),`5문항 완료 · ${score}문항 정답`),h('p',{className:'muted text-sm mb-3'},score===5?'두 정렬의 원리를 모두 이해했어요!':'문제 번호를 눌러 해설을 다시 확인해 보세요.'),button('퀴즈 다시 풀기',RotateCcw,()=>{setAnswers({});setQIndex(0);})):h('p',{className:'mt-auto pt-5 text-xs muted'},'관찰 → 예측 → 확인. 시뮬레이터에서 직접 검증해 보세요.')
+   )
+  ),h('footer',{className:'flex flex-wrap justify-between gap-2 mt-5 text-xs muted'},h('span',null,'고등학교 정보 · 알고리즘과 프로그래밍'),h('span',null,'숫자 아래 [ ]는 0부터 시작하는 배열 인덱스입니다.'))
+ );
+}
+createRoot(document.getElementById('sorting-lab')).render(h(App));
+</script>
+</body>
+</html>
